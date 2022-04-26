@@ -18,18 +18,9 @@ track=`jq -r '.track' config.json`
 fd_scale_gm=`jq -r '.fd_scale_gm' config.json` # should be boolean
 no_dilate_lut=`jq -r '.no_dilate_lut' config.json` # should be boolean
 fd_thresh=`jq -r '.fd_thresh' config.json` # numerical
-reg_tikhonov=`jq -r '.reg_tikhonov' config.json` # numerical: default 0
-reg_tv=`jq -r '.reg_tv' config.json` # numerical: default 0.1
-min_td_frac=`jq -r '.min_td_frac' config.json` # numerical: default 0.1
-min_iters=`jq -r '.min_iters' config.json` # numerical: default 10
-max_iters=`jq -r '.max_iters' config.json` # nuemrical
-min_factor=`jq -r '.min_factor' config.json` # numerical: default 0. CAN ONLY BE USED IF MIN_COEFF NOT USED
-min_coeff=`jq -r '.min_coeff' config.json` # string: default -inf. CAN ONLY BE USED IF MIN_FACTOR NOT USED
-max_factor=`jq -r '.max_factor' config.json` # string; default inf. CAN ONLY BE USED IF MAX_COEFF NOT USED
-max_coeff=`jq -r '.max_coeff' config.json` # string: default inf. AN ONLY BE USED IF MAX_FACTOR NOT USED
-max_coeff_step=`jq -r '.max_coeff_step' config.json` # numerical: default 1
-min_cf_decrease=`jq -r '.min_cf_decrease' config.json` # numerical (fraction): default 0.000025
-linear=`jq -r '.linear' config.json` # should be boolean
+term_number=`jq -r '.term_number' config.json` # numerical: default null
+term_ratio=`jq -r '.term_ratio' config.json` # numerical? default null
+term_mu=`jq -r '.term_mu' config.json` # numerical: default null
 lmax=`jq -r '.lmax' config.json`
 ncores=8
 
@@ -66,55 +57,24 @@ if [[ ! ${fd_thresh} == "0" ]]; then
 	cmd=$cmd" -fd_thresh ${fd_thresh}"
 fi
 
-if [[ ! ${reg_tikhonov} == "0" ]]; then
-	cmd=$cmd" -reg_tikhonov ${reg_tikhonov}"
+if [[ ! ${term_number} == null ]]; then
+	cmd=$cmd" -term_number ${term_number}"
 fi
 
-if [[ ! ${reg_tv} == "0.1" ]]; then
-	cmd=$cmd" -reg_tv ${reg_tv}"
+if [[ ! ${term_ratio} == null ]]; then
+	cmd=$cmd" -term_ratio ${term_ratio}"
 fi
 
-if [[ ! ${min_td_frac} == "0.1" ]]; then
-	cmd=$cmd" -min_td_frac ${min_td_frac}"
-fi
-
-if [[ ! ${min_iters} == "10" ]]; then
-	cmd=$cmd" -min_iters ${min_iters}"
-fi
-
-if [[ ! ${max_iters} == null ]]; then
-	cmd=$cmd" -max_iters ${max_iters}"
-fi
-
-if [[ ! ${min_factor} == "0" ]]; then
-	cmd=$cmd" -min_factor ${min_factor}"
-fi
-
-if [[ ! ${min_coeff} == "-inf" ]]; then
-	cmd=$cmd" -min_coeff ${min_coeff}"
-fi
-
-if [[ ! ${max_factor} == "inf" ]]; then
-	cmd=$cmd" -max_factor ${max_factor}"
-fi
-
-if [[ ! ${max_coeff} == "inf" ]]; then
-	cmd=$cmd" -max_coeff ${max_coeff}"
-fi
-
-if [[ ! ${max_coeff_step} == "1" ]]; then
-	cmd=$cmd" -max_coeff_step ${max_coeff_step}"
-fi
-
-if [[ ! ${min_cf_decrease} == "2.5e-05" ]]; then
-	cmd=$cmd" -min_cf_decrease ${min_cf_decrease}"
+if [[ ! ${term_mu} == null ]]; then
+	cmd=$cmd" -term_mu ${term_mu}"
 fi
 
 # perform sift
-if [ ! -f weights.csv ]; then
-	echo "performing SIFT2 to identify streamlines weights"
-	tcksift2 ${track} lmax${lmax}.mif weights.csv -act 5tt.mif -out_mu mu.txt -csv stats.csv -out_coeffs coeffs.txt $cmd -nthreads ${ncores} -force -quiet
+if [ ! -f labels.txt ]; then
+	echo "performing SIFT to filter streamlines"
+	tcksift ${track} lmax${lmax}.mif weights.csv -act 5tt.mif -out_mu mu.txt -csv stats.csv -out_selection labels.txt $cmd -nthreads ${ncores} -force -quiet
 	mu=`cat mu.txt`
+	labels=`cat labels.txt`
 fi
 
 
