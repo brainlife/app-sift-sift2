@@ -1,9 +1,9 @@
 [![Abcdspec-compliant](https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg)](https://github.com/brain-life/abcd-spec)
 [![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-brainlife.app.580-blue.svg)](https://doi.org/10.25663/brainlife.app.580)
 
-# Structural Connectome MRTrix3 (SCMRT) (SIFT2)
+# Filter streamlines using SIFT2
 
-This app will "This app will generate a structural connectome from tractography and parcellation data using SIFT2 to clean the tractograms. This app takes in as input a wholebrain tractogram, and volumated parcellation, a csd dataytpe to perform SIFT2, a tissue type mask (5tt), and tensor and noddi datatypes as optional datatypes to generate metric-based connectivity matrices. This app will output many datatypes that are common to the network pipelines available on brainlife.io"
+This app will filter streamlines from a wholebrain tractogram using SIFT2. 
 
 ### Authors
 
@@ -31,13 +31,11 @@ We kindly ask that you cite the following articles when publishing papers and co
 
 2. Tournier, J.-D.; Smith, R. E.; Raffelt, D.; Tabbara, R.; Dhollander, T.; Pietsch, M.; Christiaens, D.; Jeurissen, B.; Yeh, C.-H. & Connelly, A. MRtrix3: A fast, flexible and open software framework for medical image processing and visualisation. NeuroImage, 2019, 202, 116137
 
-3. Hagmann, P.; Cammoun, L.; Gigandet, X.; Meuli, R.; Honey, C.; Wedeen, V. & Sporns, O. Mapping the Structural Core of Human Cerebral Cortex. PLoS Biology 6(7), e159
+3. Smith, R. E.; Tournier, J.-D.; Calamante, F. & Connelly, A. The effects of SIFT on the reproducibility and biological accuracy of the structural connectome. NeuroImage, 2015, 104, 253-265
 
-4. Smith, R. E.; Tournier, J.-D.; Calamante, F. & Connelly, A. The effects of SIFT on the reproducibility and biological accuracy of the structural connectome. NeuroImage, 2015, 104, 253-265
+4. Smith, R. E.; Tournier, J.-D.; Calamante, F. & Connelly, A. SIFT2: Enabling dense quantitative assessment of brain white matter connectivity using streamlines tractography. NeuroImage, 2015, 119, 338-351
 
-5. Smith, R. E.; Tournier, J.-D.; Calamante, F. & Connelly, A. SIFT2: Enabling dense quantitative assessment of brain white matter connectivity using streamlines tractography. NeuroImage, 2015, 119, 338-351
-
-6. Smith, RE; Raffelt, D; Tournier, J-D; Connelly, A. Quantitative Streamlines Tractography: Methods and Inter-Subject Normalisation. Open Science Framework, https://doi.org/10.31219/osf.io/c67kn.
+5. Smith, RE; Raffelt, D; Tournier, J-D; Connelly, A. Quantitative Streamlines Tractography: Methods and Inter-Subject Normalisation. Open Science Framework, https://doi.org/10.31219/osf.io/c67kn.
 #### MIT Copyright (c) 2020 brainlife.io The University of Texas at Austin and Indiana University
 
 ## Running the App
@@ -54,10 +52,7 @@ You can submit this App online at [https://doi.org/10.25663/brainlife.app.580](h
 
 ```json
 {
-    "track": "/input/track/track.nii.gz",
-    "parc": "/input/parc/parc.nii.gz",
-    "key": "/input/parc/key.txt",
-    "label": "/input/parc/label.json",
+    "track": "/input/track/track.tck",
     "lmax2": "/input/csd/lmax2.nii.gz",
     "lmax4": "/input/csd/lmax4.nii.gz",
     "lmax6": "/input/csd/lmax6.nii.gz",
@@ -66,18 +61,22 @@ You can submit this App online at [https://doi.org/10.25663/brainlife.app.580](h
     "lmax12": "/input/csd/lmax12.nii.gz",
     "lmax14": "/input/csd/lmax14.nii.gz",
     "mask": "/input/mask/mask.nii.gz",
-    "fa": "/input/tensor/fa.nii.gz",
-    "md": "/input/tensor/md.nii.gz",
-    "rd": "/input/tensor/rd.nii.gz",
-    "ad": "/input/tensor/ad.nii.gz",
-    "ga": "/input/tensor/ga.nii.gz",
-    "ak": "/input/tensor/ak.nii.gz",
-    "mk": "/input/tensor/mk.nii.gz",
-    "rk": "/input/tensor/rk.nii.gz",
-    "ndi": "/input/noddi/ndi.nii.gz",
-    "isovf": "/input/noddi/isovf.nii.gz",
-    "odi": "/input/noddi/odi.nii.gz",
-    "lmax": 8
+    "lmax": 8,
+    "fd_scale_gm": true,
+    "no_dilate_lut": false,
+    "linear": false,
+    "fd_thresh": 0,
+    "reg_tikhonov": 0,
+    "reg_tv": 0.1,
+    "min_td_frac": 0.1,
+    "min_iters": 10,
+    "max_iters": null,
+    "min_factor": "0",
+    "min_coeff": "-inf",
+    "max_factor": "inf",
+    "max_coeff": "inf",
+    "max_coeff_step": 1,
+    "min_cf_decrease": 0.000025
 }
 ```
 
@@ -110,14 +109,6 @@ The secondary output of this app is `product.json`. This file allows web interfa
 
 This App only requires [singularity](https://www.sylabs.io/singularity/) to run. If you don't have singularity, you will need to install following dependencies.   
 
-- Python3: https://www.python.org/downloads/
-- pandas: https://pandas.pydata.org/
-- numpy: https://numpy.org/
-- nibabel: https://nipy.org/nibabel/
-- dipy: https://dipy.org/
-- igraph: https://igraph.org/python/
-- jgf: https://pypi.org/project/jgf/
-- tqdm: https://tqdm.github.io/
 - MRTrix3: https://www.mrtrix.org/
 
 #### MIT Copyright (c) 2020 brainlife.io The University of Texas at Austin and Indiana University
