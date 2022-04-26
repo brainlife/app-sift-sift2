@@ -3,17 +3,7 @@
 #PBS -N app-sift
 #PBS -V
 
-# set -e
+set -e
 
 # run sift
 time singularity exec -e docker://brainlife/mrtrix3:3.0.3 ./run.sh
-
-# if [ ! -f ./connectomes/density.csv ]; then
-# 	echo "something failed. check derivatives"
-# else
-# 	echo "connectome generation completed"
-# 	rm -rf *.mif *.txt
-# 	mkdir -p output
-# 	mv connectomes output/output/
-# 	cp netneuro/surfaces/index.json ./netneuro/labels.json
-# fi
