@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# set -x
-# set -e
+set -x
+set -e
 
-mkdir -p labels
+mkdir -p labels raw filtered
 
 #### configurable parameters ####
 lmax2=`jq -r '.lmax2' config.json`
@@ -72,37 +72,9 @@ fi
 # perform sift
 if [ ! -f labels.txt ]; then
 	echo "performing SIFT to filter streamlines"
-	tcksift ${track} lmax${lmax}.mif weights.csv -act 5tt.mif -out_mu mu.txt -csv stats.csv -out_selection labels.txt $cmd -nthreads ${ncores} -force -quiet
+	tcksift ${track} lmax${lmax}.mif ./filtered/track.tck -act 5tt.mif -out_mu ./raw/mu.txt -csv ./raw/stats.csv -out_selection ./labels/labels.csv $cmd -nthreads ${ncores} -force -quiet
 	mu=`cat mu.txt`
 	labels=`cat labels.txt`
 fi
 
-
-
-# if [ -f ./connectomes/count.csv ] && [ -f ./connectomes/length.csv ]; then
-# 	echo "generation of connectomes is complete!"
-# 	mv weights.csv assignments.csv ./connectomes/
-#
-# 	# need to convert csvs to actually csv and not space delimited
-# 	for csvs in ./connectomes/*.csv
-# 	do
-# 		if [[ ! ${csvs} == './connectomes/centers.csv' ]]; then
-# 			if [[ ${csvs} == './connectomes/assignments.csv' ]]; then
-# 				sed 1,1d ${csvs} > tmp.csv
-# 				cat tmp.csv > ${csvs}
-# 				rm -rf tmp.csv
-# 			fi
-# 			sed -e 's/\s\+/,/g' ${csvs} > tmp.csv
-# 			cat tmp.csv > ${csvs}
-# 			rm -rf tmp.csv
-# 		fi
-# 	done
-# 	for conmats in ${conmat_measures}
-# 	do
-# 		sed -e 's/\s\+/,/g' ./${conmats}_out/csv/correlation.csv > ./${conmats}_out/csv/tmp.csv
-# 		cat ./${conmats}_out/csv/tmp.csv > ./${conmats}_out/csv/correlation.csv
-# 		rm -rf ./${conmats}_out/csv/tmp.csv
-# 	done
-# else
-# 	echo "something went wrong"
-# fi
+[ -f ./labels/labels.csv ] && mv *.mif ./raw/
