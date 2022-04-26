@@ -3,7 +3,7 @@
 
 # Filter streamlines using SIFT2
 
-This app will filter streamlines from a wholebrain tractogram using SIFT2. 
+This app will filter streamlines from a wholebrain tractogram using SIFT2.
 
 ### Authors
 
@@ -82,7 +82,7 @@ You can submit this App online at [https://doi.org/10.25663/brainlife.app.580](h
 
 ### Sample Datasets
 
-You can download sample datasets from Brainlife using [Brainlife CLI](https://github.com/brain-life/cli). 
+You can download sample datasets from Brainlife using [Brainlife CLI](https://github.com/brain-life/cli).
 
 ```
 npm install -g brainlife
