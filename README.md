@@ -1,9 +1,9 @@
 [![Abcdspec-compliant](https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg)](https://github.com/brain-life/abcd-spec)
 [![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-brainlife.app.580-blue.svg)](https://doi.org/10.25663/brainlife.app.580)
 
-# Filter streamlines using SIFT
+# Filter streamlines using SIFT2
 
-This app will filter streamlines from a wholebrain tractogram using SIFT. 
+This app will filter streamlines from a wholebrain tractogram using SIFT2.
 
 ### Authors
 
@@ -33,6 +33,10 @@ We kindly ask that you cite the following articles when publishing papers and co
 
 3. Smith, R. E.; Tournier, J.-D.; Calamante, F. & Connelly, A. The effects of SIFT on the reproducibility and biological accuracy of the structural connectome. NeuroImage, 2015, 104, 253-265
 
+4. Smith, R. E.; Tournier, J.-D.; Calamante, F. & Connelly, A. SIFT2: Enabling dense quantitative assessment of brain white matter connectivity using streamlines tractography. NeuroImage, 2015, 119, 338-351
+
+5. Smith, RE; Raffelt, D; Tournier, J-D; Connelly, A. Quantitative Streamlines Tractography: Methods and Inter-Subject Normalisation. Open Science Framework, https://doi.org/10.31219/osf.io/c67kn.
+
 #### MIT Copyright (c) 2020 brainlife.io The University of Texas at Austin and Indiana University
 
 ## Running the App
@@ -60,17 +64,26 @@ You can submit this App online at [https://doi.org/10.25663/brainlife.app.580](h
     "mask": "/input/mask/mask.nii.gz",
     "lmax": 8,
     "fd_scale_gm": true,
-    "no_dilate_lut":    false,
+    "no_dilate_lut": false,
+    "linear": false,
     "fd_thresh": 0,
-    "term_number":  null,
-    "term_ratio":   null,
-    "term_mu":  null
+    "reg_tikhonov": 0,
+    "reg_tv": 0.1,
+    "min_td_frac": 0.1,
+    "min_iters": 10,
+    "max_iters": null,
+    "min_factor": "0",
+    "min_coeff": "-inf",
+    "max_factor": "inf",
+    "max_coeff": "inf",
+    "max_coeff_step": 1,
+    "min_cf_decrease": 0.000025
 }
 ```
 
 ### Sample Datasets
 
-You can download sample datasets from Brainlife using [Brainlife CLI](https://github.com/brain-life/cli). 
+You can download sample datasets from Brainlife using [Brainlife CLI](https://github.com/brain-life/cli).
 
 ```
 npm install -g brainlife
@@ -87,7 +100,7 @@ bl dataset download
 
 ## Output
 
-The main output of this App is a raw datatype containing all of stats files and converted data, a track/tck datatype containing the filtered tractogram, and a labels datatype containing the boolean streamline indices from the input tractogram for the streamlines that survived SIFT.
+The main output of this App is a raw datatype containing all of the matrices generated, individual conmat dataytpes for count, length, density, and denlen, and a networkneuro datatypes for visualization.
 
 #### Product.json
 
