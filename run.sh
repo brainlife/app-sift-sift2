@@ -73,8 +73,6 @@ fi
 if [ ! -f labels.txt ]; then
 	echo "performing SIFT to filter streamlines"
 	tcksift ${track} lmax${lmax}.mif ./filtered/track.tck -act 5tt.mif -out_mu ./raw/mu.txt -csv ./raw/stats.csv -out_selection ./labels/labels.csv $cmd -nthreads ${ncores} -force -quiet
-	mu=`cat mu.txt`
-	labels=`cat labels.txt`
 fi
 
 [ -f ./labels/labels.csv ] && mv *.mif ./raw/
