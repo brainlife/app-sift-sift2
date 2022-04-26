@@ -1,5 +1,5 @@
 [![Abcdspec-compliant](https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg)](https://github.com/brain-life/abcd-spec)
-[![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-brainlife.app.580-blue.svg)](https://doi.org/10.25663/brainlife.app.580)
+[![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-brainlife.app.615-blue.svg)](https://doi.org/10.25663/brainlife.app.615)
 
 # Filter streamlines using SIFT2
 
@@ -43,7 +43,7 @@ We kindly ask that you cite the following articles when publishing papers and co
 
 ### On Brainlife.io
 
-You can submit this App online at [https://doi.org/10.25663/brainlife.app.580](https://doi.org/10.25663/brainlife.app.580) via the 'Execute' tab.
+You can submit this App online at [https://doi.org/10.25663/brainlife.app.615](https://doi.org/10.25663/brainlife.app.615) via the 'Execute' tab.
 
 ### Running Locally (on your machine)
 
@@ -100,7 +100,7 @@ bl dataset download
 
 ## Output
 
-The main output of this App is a raw datatype containing all of the matrices generated, individual conmat dataytpes for count, length, density, and denlen, and a networkneuro datatypes for visualization.
+The main output of this App is a raw datatype containing all of the statistics and derivatives generated during this app, and a streamline-weights datatype containing the weights from SIFT2 for each streamline.
 
 #### Product.json
 
