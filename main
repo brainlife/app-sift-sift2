@@ -1,6 +1,6 @@
 #!/bin/bash
-#PBS -l nodes=1:ppn=4,walltime=1:00:00,vmem=40gb
-#PBS -N app-sift
+#PBS -l nodes=1:ppn=4,walltime=3:00:00,vmem=40gb
+#PBS -N app-sift2
 #PBS -V
 
 set -e
