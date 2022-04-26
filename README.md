@@ -1,9 +1,9 @@
 [![Abcdspec-compliant](https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg)](https://github.com/brain-life/abcd-spec)
 [![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-brainlife.app.580-blue.svg)](https://doi.org/10.25663/brainlife.app.580)
 
-# Filter streamlines using SIFT2
+# Filter streamlines using SIFT
 
-This app will filter streamlines from a wholebrain tractogram using SIFT2. 
+This app will filter streamlines from a wholebrain tractogram using SIFT. 
 
 ### Authors
 
