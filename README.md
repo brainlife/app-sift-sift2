@@ -87,7 +87,7 @@ bl dataset download
 
 ## Output
 
-The main output of this App is a raw datatype containing all of the matrices generated, individual conmat dataytpes for count, length, density, and denlen, and a networkneuro datatypes for visualization.
+The main output of this App is a raw datatype containing all of stats files and converted data, a track/tck datatype containing the filtered tractogram, and a labels datatype containing the boolean streamline indices from the input tractogram for the streamlines that survived SIFT.
 
 #### Product.json
 
