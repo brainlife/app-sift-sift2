@@ -3,7 +3,7 @@
 # set -x
 # set -e
 
-mkdir -p labels
+mkdir -p weights raw
 
 #### configurable parameters ####
 lmax2=`jq -r '.lmax2' config.json`
@@ -110,39 +110,8 @@ if [[ ! ${min_cf_decrease} == "2.5e-05" ]]; then
 	cmd=$cmd" -min_cf_decrease ${min_cf_decrease}"
 fi
 
-# perform sift
+# perform sift2
 if [ ! -f weights.csv ]; then
 	echo "performing SIFT2 to identify streamlines weights"
-	tcksift2 ${track} lmax${lmax}.mif weights.csv -act 5tt.mif -out_mu mu.txt -csv stats.csv -out_coeffs coeffs.txt $cmd -nthreads ${ncores} -force -quiet
-	mu=`cat mu.txt`
+	tcksift2 ${track} lmax${lmax}.mif ./weights/weights.csv -act 5tt.mif -out_mu ./raw/mu.txt -csv ./raw/stats.csv -out_coeffs ./raw/coeffs.txt $cmd -nthreads ${ncores} -force -quiet
 fi
-
-
-
-# if [ -f ./connectomes/count.csv ] && [ -f ./connectomes/length.csv ]; then
-# 	echo "generation of connectomes is complete!"
-# 	mv weights.csv assignments.csv ./connectomes/
-#
-# 	# need to convert csvs to actually csv and not space delimited
-# 	for csvs in ./connectomes/*.csv
-# 	do
-# 		if [[ ! ${csvs} == './connectomes/centers.csv' ]]; then
-# 			if [[ ${csvs} == './connectomes/assignments.csv' ]]; then
-# 				sed 1,1d ${csvs} > tmp.csv
-# 				cat tmp.csv > ${csvs}
-# 				rm -rf tmp.csv
-# 			fi
-# 			sed -e 's/\s\+/,/g' ${csvs} > tmp.csv
-# 			cat tmp.csv > ${csvs}
-# 			rm -rf tmp.csv
-# 		fi
-# 	done
-# 	for conmats in ${conmat_measures}
-# 	do
-# 		sed -e 's/\s\+/,/g' ./${conmats}_out/csv/correlation.csv > ./${conmats}_out/csv/tmp.csv
-# 		cat ./${conmats}_out/csv/tmp.csv > ./${conmats}_out/csv/correlation.csv
-# 		rm -rf ./${conmats}_out/csv/tmp.csv
-# 	done
-# else
-# 	echo "something went wrong"
-# fi
