@@ -110,7 +110,7 @@ if [[ ! ${min_cf_decrease} == "2.5e-05" ]]; then
 	cmd=$cmd" -min_cf_decrease ${min_cf_decrease}"
 fi
 
-# perform sift
+# perform sift2
 if [ ! -f weights.csv ]; then
 	echo "performing SIFT2 to identify streamlines weights"
 	tcksift2 ${track} lmax${lmax}.mif ./weights/weights.csv -act 5tt.mif -out_mu ./raw/mu.txt -csv ./raw/stats.csv -out_coeffs ./raw/coeffs.txt $cmd -nthreads ${ncores} -force -quiet
