@@ -33,9 +33,6 @@ We kindly ask that you cite the following articles when publishing papers and co
 
 3. Smith, R. E.; Tournier, J.-D.; Calamante, F. & Connelly, A. The effects of SIFT on the reproducibility and biological accuracy of the structural connectome. NeuroImage, 2015, 104, 253-265
 
-4. Smith, R. E.; Tournier, J.-D.; Calamante, F. & Connelly, A. SIFT2: Enabling dense quantitative assessment of brain white matter connectivity using streamlines tractography. NeuroImage, 2015, 119, 338-351
-
-5. Smith, RE; Raffelt, D; Tournier, J-D; Connelly, A. Quantitative Streamlines Tractography: Methods and Inter-Subject Normalisation. Open Science Framework, https://doi.org/10.31219/osf.io/c67kn.
 #### MIT Copyright (c) 2020 brainlife.io The University of Texas at Austin and Indiana University
 
 ## Running the App
@@ -63,20 +60,11 @@ You can submit this App online at [https://doi.org/10.25663/brainlife.app.580](h
     "mask": "/input/mask/mask.nii.gz",
     "lmax": 8,
     "fd_scale_gm": true,
-    "no_dilate_lut": false,
-    "linear": false,
+    "no_dilate_lut":    false,
     "fd_thresh": 0,
-    "reg_tikhonov": 0,
-    "reg_tv": 0.1,
-    "min_td_frac": 0.1,
-    "min_iters": 10,
-    "max_iters": null,
-    "min_factor": "0",
-    "min_coeff": "-inf",
-    "max_factor": "inf",
-    "max_coeff": "inf",
-    "max_coeff_step": 1,
-    "min_cf_decrease": 0.000025
+    "term_number":  null,
+    "term_ratio":   null,
+    "term_mu":  null
 }
 ```
 
