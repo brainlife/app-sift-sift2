@@ -23,7 +23,7 @@ term_number=`jq -r '.term_number' config.json` # numerical: default null
 term_ratio=`jq -r '.term_ratio' config.json` # numerical? default null
 term_mu=`jq -r '.term_mu' config.json` # numerical: default null
 lmax=`jq -r '.lmax' config.json`
-ncores=8
+ncores=4
 
 #### convert data to mif ####
 # fod
@@ -34,15 +34,7 @@ if [ ! -f lmax${lmax}.mif ]; then
 fi
 
 # 5tt mask. need to set in case 5tt not provided
-if [ ! -f ${mask} ]; then
-	if [ ! -f ${anat} ]; then
-		echo "missing tissue-type mask datatype and anat/t1w datatype. this is required to perform sift. please input either of the two"
-		exit 1
-	else
-		[ ! -f anat.mif ] && mrconvert ${anat} anat.mif -nthreads ${ncores} -quiet -force
-		[ ! -f 5tt.mif ] && 5ttgen fsl anat.mif 5tt.mif -nocrop -sgm_amyg_hipp -force -nthreads ${ncores} -quiet
-	fi
-else
+if [ -f ${mask} ]; then
 	if [ ! -f 5tt.mif ]; then
 		echo "converting tissue-type image"
 		mrconvert ${mask} 5tt.mif -force -nthreads ${ncores} -quiet
