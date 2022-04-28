@@ -111,7 +111,22 @@ if [[ ! ${min_cf_decrease} == "2.5e-05" ]]; then
 fi
 
 # perform sift2
-if [ ! -f weights.csv ]; then
+if [ ! -f ./weights/weights.csv ]; then
 	echo "performing SIFT2 to identify streamlines weights"
-	tcksift2 ${track} lmax${lmax}.mif ./weights/weights.csv -act 5tt.mif -out_mu ./raw/mu.txt -csv ./raw/stats.csv -out_coeffs ./raw/coeffs.txt $cmd -nthreads ${ncores} -force -quiet
+	tcksift2 ${track} lmax${lmax}.mif weights.csv -act 5tt.mif -out_mu ./raw/mu.txt -csv ./raw/stats.csv -out_coeffs ./raw/coeffs.txt $cmd -nthreads ${ncores} -force -quiet
+
+	# remove header row from mrtrix3 weights.csv file
+	sed 1,1d ./weights.csv > tmp.csv
+	tr -s ',' '\n'< ./tmp.csv >> ./weights/weights.csv
+	rm -rf tmp.csv
+	mv ./weights.csv ./raw/
+fi
+
+# error check
+if [ -f ./weights/weights.csv ]; then
+	echo "SIFT2 complete!"
+	mv ./weights.csv *.mif ./raw/
+else
+	echo "something went wrong. check derivatives"
+	exit 1
 fi
