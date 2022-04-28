@@ -125,7 +125,7 @@ fi
 # error check
 if [ -f ./weights/weights.csv ]; then
 	echo "SIFT2 complete!"
-	mv ./weights.csv *.mif ./raw/
+	mv *.mif ./raw/
 else
 	echo "something went wrong. check derivatives"
 	exit 1
