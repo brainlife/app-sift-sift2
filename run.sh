@@ -75,4 +75,4 @@ if [ ! -f labels.txt ]; then
 	tcksift ${track} lmax${lmax}.mif ./filtered/track.tck -act 5tt.mif -out_mu ./raw/mu.txt -csv ./raw/stats.csv -out_selection ./labels/index.csv $cmd -nthreads ${ncores} -force -quiet
 fi
 
-[ -f ./labels/labels.csv ] && mv *.mif ./raw/
+[ -f ./labels/index.csv ] && mv *.mif ./raw/
