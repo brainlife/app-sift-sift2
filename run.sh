@@ -40,7 +40,7 @@ if [ ! -f ${mask} ]; then
 		exit 1
 	else
 		[ ! -f anat.mif ] && mrconvert ${anat} anat.mif -nthreads ${ncores} -quiet -force
-		[ ! -f 5tt.mif ] && 5ttgen fsl anat.mif 5tt.mif -nocrop -sgm_amyg_hipp -tempdir ./tmp -force -nthreads $NCORE -quiet
+		[ ! -f 5tt.mif ] && 5ttgen fsl anat.mif 5tt.mif -nocrop -sgm_amyg_hipp -tempdir ./tmp -force -nthreads ${ncores} -quiet
 	fi
 else
 	if [ ! -f 5tt.mif ]; then
