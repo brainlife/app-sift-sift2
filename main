@@ -5,5 +5,20 @@
 
 set -e
 
+# check if 5tt mask is missing
+mask=`jq -r '.mask' config.json`
+anat=`jq -r '.anat' config.json`
+
+# 5tt mask. need to set in case 5tt not provided
+if [ ! -f ${mask} ]; then
+	if [ ! -f ${anat} ]; then
+		echo "missing tissue-type mask datatype and anat/t1w datatype. this is required to perform sift. please input either of the two"
+		exit 1
+	else
+    echo "generating 5tt"
+    time singularity exec -e docker://brainlife/mrtrix3:3.0_RC3 ./generate_5tt.sh
+	fi
+fi
+
 # run sift
 time singularity exec -e docker://brainlife/mrtrix3:3.0.3 ./run.sh

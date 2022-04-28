@@ -42,7 +42,7 @@ if [ ! -f lmax${lmax}.mif ]; then
 fi
 
 # 5tt mask. need to set in case 5tt not provided
-if ${act}; then
+if [ -f ${mask} ]; then
 	if [ ! -f 5tt.mif ]; then
 		echo "converting tissue-type image"
 		mrconvert ${mask} 5tt.mif -force -nthreads ${ncores} -quiet
