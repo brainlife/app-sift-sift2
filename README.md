@@ -77,7 +77,8 @@ You can submit this App online at [https://doi.org/10.25663/brainlife.app.615](h
     "max_factor": "inf",
     "max_coeff": "inf",
     "max_coeff_step": 1,
-    "min_cf_decrease": 0.000025
+    "min_cf_decrease": 0.000025,
+    "premask":  false
 }
 ```
 
