@@ -64,7 +64,8 @@ You can submit this App online at [https://doi.org/10.25663/brainlife.app.616](h
     "fd_thresh": 0,
     "term_number":  null,
     "term_ratio":   null,
-    "term_mu":  null
+    "term_mu":  null,
+    "premask": false
 }
 ```
 
