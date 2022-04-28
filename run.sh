@@ -6,6 +6,7 @@ set -e
 mkdir -p labels raw filtered
 
 #### configurable parameters ####
+anat=`jq -r '.anat' config.json`
 lmax2=`jq -r '.lmax2' config.json`
 lmax4=`jq -r '.lmax4' config.json`
 lmax6=`jq -r '.lmax6' config.json`
@@ -33,7 +34,15 @@ if [ ! -f lmax${lmax}.mif ]; then
 fi
 
 # 5tt mask. need to set in case 5tt not provided
-if ${act}; then
+if [ ! -f ${mask} ]; then
+	if [ ! -f ${anat} ]; then
+		echo "missing tissue-type mask datatype and anat/t1w datatype. this is required to perform sift. please input either of the two"
+		exit 1
+	else
+		[ ! -f anat.mif ] && mrconvert ${anat} anat.mif -nthreads ${ncores} -quiet -force
+		[ ! -f 5tt.mif ] && 5ttgen fsl anat.mif 5tt.mif -nocrop -sgm_amyg_hipp -tempdir ./tmp -force -nthreads $NCORE -quiet
+	fi
+else
 	if [ ! -f 5tt.mif ]; then
 		echo "converting tissue-type image"
 		mrconvert ${mask} 5tt.mif -force -nthreads ${ncores} -quiet
