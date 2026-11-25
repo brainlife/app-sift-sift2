@@ -3,6 +3,47 @@
 
 # Compute streamline weights using SIFT2
 
+<!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
+
+**Filters a whole-brain tractogram with MRtrix3 tcksift, removing streamlines until streamline densities match the FOD fibre densities, and outputs the filtered tractogram and surviving-streamline labels.**
+
+Converts the CSD FOD of the chosen lmax and the 5tt image (generated from the T1w if not provided) and runs tcksift, stopping at the requested number of streamlines, termination ratio or proportionality coefficient. Use it to reduce tractography biases before connectomics; use SIFT2 instead to keep all streamlines and obtain weights.
+
+Run it on brainlife.io: [https://doi.org/10.25663/brainlife.app.616](https://doi.org/10.25663/brainlife.app.616)
+
+| Input | Datatype | Required | Description |
+|---|---|---|---|
+| `track` | `neuro/track/tck` | yes | path to the input tractogram |
+| `csd` | `neuro/csd` | yes | paths to the individual FOD files |
+| `mask` | `neuro/mask` (5tt_masks) | no | Five-tissue-type (5tt) segmentation used for anatomically constrained processing; generated from the T1w with MRtrix3 if not given. |
+| `anat` | `neuro/anat/t1w` | no | Only required if no tissue-type mask datatype available |
+
+| Output | Datatype | Description |
+|---|---|---|
+| `labels` | `neuro/labels` | label file containing the streamline indices that survived SIFT2 |
+| `raw` | `raw` | contains the derivative files generated during the sift process, including the weights and proportionality coefficient and relative statistics files |
+| `filtered` | `neuro/track/tck` | this contains the filtered tractogram. not automatically archived to save space and avoid redundant data objects |
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `lmax` | number | `8` | the spherical harmonic order (lmax) to use |
+| `fd_scale_gm` | boolean | `true` | provide this option (in conjunction with -act) to heuristically downsize the fibre density estimates based on the presence of GM in the voxel. This can assist in reducing tissue interface effects when using a single-tissue deconvolution algorithm |
+| `no_dilate_lut` | boolean | `false` | do NOT dilate FOD lobe lookup tables; only map streamlines to FOD lobes if the precise tangent lies within the angular spread of that lobe |
+| `fd_thresh` | number | `0` | fibre density threshold; exclude an FOD lobe from filtering processing if its integral is less than this amount (streamlines will still be mapped to it, but it will not contribute to the cost function or the filtering) |
+| `term_number` | number |  | number of streamlines - continue filtering until this number of streamlines remain |
+| `term_ratio` | number |  | termination ratio - defined as the ratio between reduction in cost function, and reduction in density of streamlines. Smaller values result in more streamlines being filtered out. |
+| `term_mu` | number |  | terminate filtering once the SIFT proportionality coefficient reaches a given value |
+| `premask` | boolean | `false` | If the t1 has been masked already, set to true |
+
+Runtime: container `brainlife/mrtrix3:3.0_RC3`; 4 CPUs; 40 GB memory; 3 h walltime.
+
+Please cite:
+- Tournier J-D, Smith RE, Raffelt D, et al. MRtrix3: A fast, flexible and open software framework for medical image processing and visualisation. NeuroImage 202:116137 (2019).
+- Smith RE, Tournier J-D, Calamante F, Connelly A. The effects of SIFT on the reproducibility and biological accuracy of the structural connectome. NeuroImage 104:253-265 (2015).
+- Avesani P, McPherson B, Hayashi S, et al. The open diffusion data derivatives, brain data upcycling via integrated publishing of derivatives and reproducible open cloud services. Sci Data 6:69 (2019). [doi:10.1038/s41597-019-0073-y](https://doi.org/10.1038/s41597-019-0073-y)
+
+<!-- brainlife-app:end -->
+
 This app will compute streamline weights from a wholebrain tractogram using SIFT2. The main output from this app, the streamlines-weight datatype, can be passed directly into structural connectivity generation apps.
 
 ### Authors
